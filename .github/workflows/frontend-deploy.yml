@@ -1,0 +1,31 @@
+# .github/workflows/frontend_deploy.yml
+
+name: Deploy Frontend (Somee)
+
+on:
+  push:
+    branches:
+      - main
+    # Chỉ chạy khi có thay đổi trong thư mục /frontend
+    paths:
+      - 'frontend/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: FTP Deploy to Somee Hosting
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          # Thư mục chứa code frontend (chứa HTML/CSS/JS)
+          local-dir: ./frontend/
+          # Cấu hình kết nối Somee Hosting
+          ftp-server: ${{ secrets.FRONTEND_FTP_SERVER }} 
+          ftp-username: ${{ secrets.FRONTEND_FTP_USERNAME }}
+          ftp-password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
+          # Thư mục đích trên host (thường là /htdocs hoặc /www)
+          ftp-server-dir: /htdocs/
