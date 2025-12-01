@@ -8,7 +8,7 @@ on:
       - main
     # Chỉ chạy khi có thay đổi trong thư mục /frontend
     paths:
-      - 'frontend/**'
+      - "frontend/**"
   workflow_dispatch:
 
 jobs:
@@ -24,8 +24,8 @@ jobs:
           # Thư mục chứa code frontend (chứa HTML/CSS/JS)
           local-dir: ./frontend/
           # Cấu hình kết nối Somee Hosting
-          ftp-server: ${{ secrets.FRONTEND_FTP_SERVER }} 
-          ftp-username: ${{ secrets.FRONTEND_FTP_USERNAME }}
-          ftp-password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
+          server: ${{ secrets.FRONTEND_FTP_SERVER }}
+          username: ${{ secrets.FRONTEND_FTP_USERNAME }}
+          password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
           # Thư mục đích trên host (thường là /htdocs hoặc /www)
           ftp-server-dir: /htdocs/
