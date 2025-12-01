@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Demo - HTML</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; padding: 20px; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #3498db; }
+        p { font-size: 1.1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chào mừng đến với Frontend của tôi (Somee Hosting)</h1>
+        <p>Đây là ứng dụng giao diện người dùng đơn giản (HTML). File này được triển khai tự động qua GitHub Actions.</p>
+        <p><strong>Trạng thái:</strong> Thành công!</p>
+        <p>Thời gian cập nhật gần nhất: <span id="timestamp"></span></p>
+    </div>
+
+    <script>
+        document.getElementById('timestamp').innerText = new Date().toLocaleString('vi-VN');
+    </script>
+</body>
+</html>
