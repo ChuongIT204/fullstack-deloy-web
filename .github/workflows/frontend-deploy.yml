@@ -28,4 +28,4 @@ jobs:
           username: ${{ secrets.FRONTEND_FTP_USERNAME }}
           password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
           # Thư mục đích trên host (thường là /htdocs hoặc /www)
-          ftp-server-dir: /htdocs/
+          server-dir: /
