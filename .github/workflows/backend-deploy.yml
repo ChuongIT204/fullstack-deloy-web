@@ -8,7 +8,7 @@ on:
       - main
     # Chỉ chạy khi có thay đổi trong thư mục /backend
     paths:
-      - 'backend/**'
+      - "backend/**"
   workflow_dispatch:
 
 jobs:
@@ -24,8 +24,8 @@ jobs:
           # Thư mục chứa code backend (chứa PHP)
           local-dir: ./backend/
           # Cấu hình kết nối InfinityFree Hosting
-          ftp-server: ${{ secrets.BACKEND_FTP_SERVER }} 
-          ftp-username: ${{ secrets.BACKEND_FTP_USERNAME }}
-          ftp-password: ${{ secrets.BACKEND_FTP_PASSWORD }}
+          server: ${{ secrets.BACKEND_FTP_SERVER }}
+          username: ${{ secrets.BACKEND_FTP_USERNAME }}
+          password: ${{ secrets.BACKEND_FTP_PASSWORD }}
           # Thư mục đích trên host (ví dụ: /htdocs/api/ hoặc /htdocs/backend/)
-          ftp-server-dir: /htdocs/api/
+          server-dir: /htdocs/api/
