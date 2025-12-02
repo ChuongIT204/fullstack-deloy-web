@@ -1,12 +1,9 @@
-# .github/workflows/frontend_deploy.yml
-
 name: Deploy Frontend (Somee)
 
 on:
   push:
     branches:
       - main
-    # Chỉ chạy khi có thay đổi trong thư mục /frontend
     paths:
       - "frontend/**"
   workflow_dispatch:
@@ -21,11 +18,15 @@ jobs:
       - name: FTP Deploy to Somee Hosting
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
-          # Thư mục chứa code frontend (chứa HTML/CSS/JS)
           local-dir: ./frontend/
-          # Cấu hình kết nối Somee Hosting
           server: ${{ secrets.FRONTEND_FTP_SERVER }}
           username: ${{ secrets.FRONTEND_FTP_USERNAME }}
           password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
-          # Thư mục đích trên host (thường là /htdocs hoặc /www)
-          server-dir: /
+          protocol: ftp
+          port: 21
+
+          # Thư mục đích trên server Somee (BẮT BUỘC PHẢI ĐÚNG)
+          server-dir: /www.htmldemo.somee.com/
+
+          # Một số hosting free không cho xóa file → tránh lỗi 550 khi xoá file
+          dangerous-clean-slate: false
