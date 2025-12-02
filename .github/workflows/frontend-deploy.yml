@@ -29,4 +29,3 @@ jobs:
           password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
           # Thư mục đích trên host (thường là /htdocs hoặc /www)
           server-dir: /
-          port: 21
