@@ -3,24 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Demo - HTML</title>
+    <title>Frontend Web Demo | GitHub Actions Deployment</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f8ff; padding: 20px; }
-        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h1 { color: #3498db; }
-        p { font-size: 1.1em; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f8f9fa; 
+            color: #343a40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 90%;
+        }
+        h1 {
+            color: #17a2b8;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .status {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #d1ecf1;
+            color: #0c5460;
+            font-weight: bold;
+        }
+        #api-data {
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            text-align: left;
+            white-space: pre-wrap; /* Giữ định dạng JSON */
+        }
+        .loading {
+            color: #ffc107;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Chào mừng đến với Frontend của tôi (Somee Hosting)</h1>
-        <p>Đây là ứng dụng giao diện người dùng đơn giản (HTML). File này được triển khai tự động qua GitHub Actions.</p>
-        <p><strong>Trạng thái:</strong> Cập nhật lần 2 thành công từ GitHub Actions!</p>
-        <p>Thời gian cập nhật gần nhất: <span id="timestamp"></span></p>
+        <h1>Ứng dụng Frontend (Somee Hosting)</h1>
+        <p>Giao diện được triển khai tự động lên Somee. Hệ thống đang cố gắng lấy dữ liệu từ Backend API trên InfinityFree.</p>
+        
+        <div class="status">Trạng thái triển khai Frontend: Hoàn tất qua GitHub Actions!</div>
+
+        <h2>Kết nối API Backend (PHP)</h2>
+        <p>URL API: <span id="api-url-display">...</span></p>
+        <div id="api-data" class="loading">
+            Đang tải dữ liệu từ Backend...
+        </div>
+        
+        <p style="margin-top: 30px; font-size: 0.9em;">Thời gian tải trang: <span id="timestamp"></span></p>
     </div>
 
     <script>
+        // --- 1. Cấu hình URL API ---
+        // !!! BẠN PHẢI THAY THẾ URL NÀY BẰNG ĐỊA CHỈ API THỰC TẾ CỦA BẠN TRÊN INFINITYFREE !!!
+        const backendUrl = 'http://ten-domain-backend.com/api/api.php'; 
+        // VD: http://myphpproject.infinityfreeapp.com/api/api.php
+
+        document.getElementById('api-url-display').innerText = backendUrl;
         document.getElementById('timestamp').innerText = new Date().toLocaleString('vi-VN');
+
+
+        // --- 2. Hàm gọi API sử dụng Fetch ---
+        function fetchBackendData() {
+            const apiDataElement = document.getElementById('api-data');
+            
+            fetch(backendUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        // Ném lỗi nếu mã trạng thái không phải 2xx
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hiển thị dữ liệu JSON đẹp hơn
+                    apiDataElement.classList.remove('loading');
+                    apiDataElement.innerHTML = 
+                        '<span style="color:#007bff;">✅ Kết nối thành công!</span><br><br>' +
+                        JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // Xử lý lỗi kết nối hoặc lỗi HTTP
+                    apiDataElement.classList.remove('loading');
+                    apiDataElement.classList.add('error');
+                    apiDataElement.innerHTML = 
+                        '<span style="color:#dc3545;">❌ Lỗi kết nối Backend!</span><br>' +
+                        'Vui lòng kiểm tra:<br>' +
+                        '- Backend API đã được deploy thành công.<br>' +
+                        '- URL API đã chính xác.<br>' +
+                        '- Lỗi chi tiết: ' + error.message;
+                });
+        }
+
+        // Chạy hàm gọi API khi trang được tải
+        fetchBackendData();
     </script>
 </body>
 </html>
