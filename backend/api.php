@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 // Dữ liệu mẫu
 $data = array(
     'status' => 'success',
-    'message' => 'API Backend (PHP) đang hoạt động trên InfinityFree!',
+    'message' => 'API Backend (PHP) ĐÃ ĐƯỢC CẬP NHẬT TỰ ĐỘNG! (Kiểm tra lần 2)',
     'service' => 'Backend API',
     'timestamp' => date('Y-m-d H:i:s') // Lấy thời gian server hiện tại
 );
