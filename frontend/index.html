@@ -49,7 +49,7 @@
             border-radius: 8px;
             background-color: #f8f9fa;
             text-align: left;
-            white-space: pre-wrap; /* Giữ định dạng JSON */
+            white-space: pre-wrap;
         }
         .loading {
             color: #ffc107;
@@ -77,36 +77,29 @@
     </div>
 
     <script>
-        // --- 1. Cấu hình URL API ---
-        // !!! BẠN PHẢI THAY THẾ URL NÀY BẰNG ĐỊA CHỈ API THỰC TẾ CỦA BẠN TRÊN INFINITYFREE !!!
         const backendUrl = 'http://phpdemo.kesug.com/api/api.php'; 
-        // VD: http://myphpproject.infinityfreeapp.com/api/api.php
 
         document.getElementById('api-url-display').innerText = backendUrl;
         document.getElementById('timestamp').innerText = new Date().toLocaleString('vi-VN');
 
 
-        // --- 2. Hàm gọi API sử dụng Fetch ---
         function fetchBackendData() {
             const apiDataElement = document.getElementById('api-data');
             
             fetch(backendUrl)
                 .then(response => {
                     if (!response.ok) {
-                        // Ném lỗi nếu mã trạng thái không phải 2xx
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
-                    // Hiển thị dữ liệu JSON đẹp hơn
                     apiDataElement.classList.remove('loading');
                     apiDataElement.innerHTML = 
                         '<span style="color:#007bff;">✅ Kết nối thành công!</span><br><br>' +
                         JSON.stringify(data, null, 2);
                 })
                 .catch(error => {
-                    // Xử lý lỗi kết nối hoặc lỗi HTTP
                     apiDataElement.classList.remove('loading');
                     apiDataElement.classList.add('error');
                     apiDataElement.innerHTML = 
@@ -118,7 +111,6 @@
                 });
         }
 
-        // Chạy hàm gọi API khi trang được tải
         fetchBackendData();
     </script>
 </body>
