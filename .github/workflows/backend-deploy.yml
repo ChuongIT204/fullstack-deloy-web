@@ -1,12 +1,9 @@
-# .github/workflows/backend_deploy.yml
-
 name: Deploy Backend (InfinityFree)
 
 on:
   push:
     branches:
       - main
-    # Chỉ chạy khi có thay đổi trong thư mục /backend
     paths:
       - "backend/**"
   workflow_dispatch:
@@ -21,11 +18,8 @@ jobs:
       - name: FTP Deploy to InfinityFree Hosting
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
-          # Thư mục chứa code backend (chứa PHP)
           local-dir: ./backend/
-          # Cấu hình kết nối InfinityFree Hosting
           server: ${{ secrets.BACKEND_FTP_SERVER }}
           username: ${{ secrets.BACKEND_FTP_USERNAME }}
           password: ${{ secrets.BACKEND_FTP_PASSWORD }}
-          # Thư mục đích trên host (ví dụ: /htdocs/api/ hoặc /htdocs/backend/)
           server-dir: /htdocs/api/

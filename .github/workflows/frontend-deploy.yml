@@ -24,9 +24,6 @@ jobs:
           password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
           protocol: ftp
           port: 21
-
-          # Thư mục đích trên server Somee (BẮT BUỘC PHẢI ĐÚNG)
           server-dir: /www.htmldemo.somee.com/
 
-          # Một số hosting free không cho xóa file → tránh lỗi 550 khi xoá file
           dangerous-clean-slate: false
