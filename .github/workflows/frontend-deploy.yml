@@ -1,4 +1,4 @@
-name: Deploy Frontend (ByetHost)
+name: Deploy Frontend (Somee)
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: FTP Deploy to ByetHost
+      - name: FTP Deploy to Somee Hosting
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           local-dir: ./frontend/
@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.FRONTEND_FTP_USERNAME }}
           password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
           protocol: ftp
-          server-dir: /htdocs/
           port: 21
+          server-dir: /www.htmldemo.somee.com/
 
           dangerous-clean-slate: false

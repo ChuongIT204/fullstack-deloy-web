@@ -10,7 +10,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 $response_data = array(
     'status' => 'success',
-    'service' => 'PHP Backend API (InfinityFree)',
+    'service' => 'PHP Backend API (ByetHost)',
     'message' => 'Dữ liệu đã được gửi thành công từ Server!',
     'version' => '1.0.1',
     'timestamp' => date('Y-m-d H:i:s'),
