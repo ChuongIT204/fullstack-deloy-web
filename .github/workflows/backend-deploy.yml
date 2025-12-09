@@ -15,11 +15,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: FTP Deploy to InfinityFree Hosting
+      - name: FTP Deploy to ByetHost
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           local-dir: ./backend/
           server: ${{ secrets.BACKEND_FTP_SERVER }}
           username: ${{ secrets.BACKEND_FTP_USERNAME }}
           password: ${{ secrets.BACKEND_FTP_PASSWORD }}
-          server-dir: /htdocs/
+          server-dir: /htdocs/api/
