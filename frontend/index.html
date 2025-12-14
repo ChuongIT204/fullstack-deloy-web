@@ -97,34 +97,26 @@
 </div>
 
 <script>
-    const API_URL = "http://thechuongnguyen.byethost7.com/api/api.php";
+const API_URL = "http://thechuongnguyen.byethost7.com/api/api.php";
 
-    document.getElementById("time").innerText =
-        new Date().toLocaleString("vi-VN");
-
-    fetch(API_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("HTTP status " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const statusDiv = document.getElementById("status");
-            statusDiv.className = "status success";
-            statusDiv.innerText = "✔ Kết nối Backend thành công";
-
-            document.getElementById("result").textContent =
-                JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-            const statusDiv = document.getElementById("status");
-            statusDiv.className = "status error";
-            statusDiv.innerText = "✖ Lỗi kết nối Backend";
-
-            document.getElementById("result").textContent =
-                "Chi tiết lỗi:\n" + error.message;
-        });
+fetch(API_URL)
+  .then(res => {
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  })
+  .then(data => {
+    document.getElementById("status").innerText =
+      "✔ Kết nối Backend thành công";
+    document.getElementById("data").textContent =
+      JSON.stringify(data, null, 2);
+  })
+  .catch(err => {
+    document.getElementById("status").innerText =
+      "✖ Lỗi kết nối Backend";
+    document.getElementById("data").textContent =
+      err.message;
+  });
 </script>
+
 </body>
 </html>
