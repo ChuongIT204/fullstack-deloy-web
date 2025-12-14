@@ -1,4 +1,4 @@
-name: Deploy Frontend to Hosting
+name: Deploy Frontend to Somee
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source code
+      - name: Checkout source
         uses: actions/checkout@v4
 
       - name: Upload Frontend via FTP
@@ -21,4 +21,4 @@ jobs:
           password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
 
           local-dir: frontend/
-          server-dir: /public_html/
+          server-dir: /www.htmldemo.somee.com/
