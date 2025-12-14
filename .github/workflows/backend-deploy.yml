@@ -1,25 +1,24 @@
-name: Deploy Backend (ByetHost)
+name: Deploy Backend to Hosting
 
 on:
   push:
     branches:
       - main
-    paths:
-      - "backend/**"
-  workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy-backend:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: FTP Deploy to ByetHost
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+      - name: Upload Backend via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          local-dir: ./backend/
           server: ${{ secrets.BACKEND_FTP_SERVER }}
           username: ${{ secrets.BACKEND_FTP_USERNAME }}
           password: ${{ secrets.BACKEND_FTP_PASSWORD }}
-          server-dir: /htdocs/api/
+
+          local-dir: backend/
+          server-dir: /htdocs/

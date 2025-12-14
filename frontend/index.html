@@ -1,131 +1,53 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <title>Frontend Demo – Netlify CI/CD</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta charset="UTF-8">
+    <title>Frontend gọi Backend</title>
     <style>
         body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-            background: #f4f6f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card {
-            width: 90%;
-            max-width: 720px;
-            background: #ffffff;
+            font-family: Arial, sans-serif;
             padding: 40px;
-            border-radius: 14px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-
-        h1 {
-            margin-top: 0;
-            color: #0d6efd;
+        button {
+            padding: 10px 16px;
+            cursor: pointer;
         }
-
-        p {
-            color: #444;
-            line-height: 1.6;
+        ul {
+            margin-top: 20px;
         }
-
-        .status {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .loading {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .success {
-            background: #d1e7dd;
-            color: #0f5132;
-        }
-
-        .error {
-            background: #f8d7da;
-            color: #842029;
-        }
-
-        pre {
-            background: #f1f3f5;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-size: 14px;
-        }
-
-        footer {
-            margin-top: 30px;
-            font-size: 13px;
-            color: #666;
-            text-align: center;
-        }
+        li.done { color: green; }
+        li.in_progress { color: orange; }
+        li.todo { color: red; }
     </style>
 </head>
-
 <body>
-<div class="card">
-    <h1>Frontend (Netlify Hosting)</h1>
 
-    <p>
-        Frontend được triển khai tự động bằng <strong>GitHub Actions (.yml)</strong>
-        và host trên <strong>Netlify (HTTPS)</strong>.
-        Dữ liệu được lấy trực tiếp từ <strong>Backend PHP (ByetHost)</strong>.
-    </p>
+<h1>Danh sách công việc (từ Backend)</h1>
+<button onclick="loadTasks()">Tải dữ liệu</button>
 
-    <div id="status" class="status loading">
-        Đang kết nối tới Backend API...
-    </div>
-
-    <pre id="result">Chưa có dữ liệu</pre>
-
-    <footer>
-        Thời gian tải trang:
-        <span id="time"></span>
-    </footer>
-</div>
+<ul id="taskList"></ul>
 
 <script>
-    // ⚠️ BẮT BUỘC dùng HTTPS khi chạy trên Netlify
-    const API_URL = "https://thechuongnguyen.byethost7.com/api/api.php";
+function loadTasks() {
+    fetch("https://thechuongnguyen.byethost7.com/api.php")
+        .then(response => response.json())
+        .then(result => {
+            const list = document.getElementById("taskList");
+            list.innerHTML = "";
 
-    document.getElementById("time").innerText =
-        new Date().toLocaleString("vi-VN");
-
-    fetch(API_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("HTTP status " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const statusEl = document.getElementById("status");
-            statusEl.className = "status success";
-            statusEl.innerText = "✔ Kết nối Backend thành công";
-
-            document.getElementById("result").textContent =
-                JSON.stringify(data, null, 2);
+            result.data.forEach(task => {
+                const li = document.createElement("li");
+                li.textContent = task.title + " (" + task.status + ")";
+                li.className = task.status;
+                list.appendChild(li);
+            });
         })
         .catch(error => {
-            const statusEl = document.getElementById("status");
-            statusEl.className = "status error";
-            statusEl.innerText = "✖ Lỗi kết nối Backend";
-
-            document.getElementById("result").textContent =
-                "Chi tiết lỗi:\n" + error.message;
+            alert("Không kết nối được backend");
+            console.error(error);
         });
+}
 </script>
+
 </body>
 </html>
