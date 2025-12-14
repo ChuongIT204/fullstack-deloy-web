@@ -1,57 +1,130 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Frontend Demo – CI/CD</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-.box {
-    background: #fff;
-    padding: 30px;
-    width: 600px;
-    border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0,0,0,.1);
-}
-pre {
-    background: #f1f1f1;
-    padding: 15px;
-    border-radius: 6px;
-}
-.success { color: green; font-weight: bold; }
-.error { color: red; font-weight: bold; }
-</style>
+    <meta charset="UTF-8">
+    <title>Frontend Demo – CI/CD Deployment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 720px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #0d6efd;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .loading {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        pre {
+            background: #f1f3f5;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-<div class="box">
-    <h2>Frontend (Somee Hosting)</h2>
-    <p>Gọi API thông qua Proxy nội bộ</p>
+<div class="container">
+    <h1>Frontend (Somee Hosting)</h1>
 
-    <div id="status">Đang kết nối...</div>
-    <pre id="data"></pre>
+    <p>
+        Giao diện frontend được deploy tự động thông qua
+        <strong>GitHub Actions</strong>.
+        Dữ liệu được lấy trực tiếp từ <strong>Backend PHP (ByetHost)</strong>.
+    </p>
+
+    <div id="status" class="status loading">
+        Đang kết nối tới Backend API...
+    </div>
+
+    <pre id="result">Chưa có dữ liệu</pre>
+
+    <footer>
+        Thời gian tải trang:
+        <span id="time"></span>
+    </footer>
 </div>
 
 <script>
-fetch('proxy.php')
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('status').innerHTML =
-            '<span class="success">✔ Kết nối thành công</span>';
-        document.getElementById('data').textContent =
-            JSON.stringify(data, null, 2);
-    })
-    .catch(err => {
-        document.getElementById('status').innerHTML =
-            '<span class="error">✖ Lỗi kết nối</span>';
-        document.getElementById('data').textContent = err.message;
-    });
+    const API_URL = "https://thechuongnguyen.byethost7.com/api/api.php";
+
+    document.getElementById("time").innerText =
+        new Date().toLocaleString("vi-VN");
+
+    fetch(API_URL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const statusDiv = document.getElementById("status");
+            statusDiv.className = "status success";
+            statusDiv.innerText = "✔ Kết nối Backend thành công";
+
+            document.getElementById("result").textContent =
+                JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            const statusDiv = document.getElementById("status");
+            statusDiv.className = "status error";
+            statusDiv.innerText = "✖ Lỗi kết nối Backend";
+
+            document.getElementById("result").textContent =
+                "Chi tiết lỗi:\n" + error.message;
+        });
 </script>
 </body>
 </html>
