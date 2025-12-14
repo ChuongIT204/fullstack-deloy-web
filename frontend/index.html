@@ -29,7 +29,7 @@
 
 <script>
 function loadTasks() {
-    fetch("https://thechuongnguyen.byethost7.com/api.php")
+    fetch("http://thechuongnguyen.byethost7.com/api.php")
         .then(response => response.json())
         .then(result => {
             const list = document.getElementById("taskList");
