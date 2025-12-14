@@ -1,29 +1,27 @@
-name: Deploy Frontend (Somee)
+name: Deploy Frontend to Somee
 
 on:
   push:
     branches:
       - main
     paths:
-      - "frontend/**"
-  workflow_dispatch:
+      - frontend/**
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: FTP Deploy to Somee Hosting
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+      - name: Deploy Frontend + Proxy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
         with:
-          local-dir: ./frontend/
-          server: ${{ secrets.FRONTEND_FTP_SERVER }}
-          username: ${{ secrets.FRONTEND_FTP_USERNAME }}
-          password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          server-dir: /www.htmldemo.somee.com/
+          server: ${{ secrets.SOMEE_FTP_HOST }}
+          username: ${{ secrets.SOMEE_FTP_USER }}
+          password: ${{ secrets.SOMEE_FTP_PASS }}
 
-          dangerous-clean-slate: false
+          # QUAN TRỌNG: upload toàn bộ frontend (index.html + proxy.php)
+          local-dir: frontend/
+          server-dir: /
