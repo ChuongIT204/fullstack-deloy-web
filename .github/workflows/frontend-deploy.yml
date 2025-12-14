@@ -11,16 +11,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: FTP Deploy to Somee
+      - name: FTP Deploy to Somee Hosting
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           local-dir: ./frontend/
           server: ${{ secrets.FRONTEND_FTP_SERVER }}
           username: ${{ secrets.FRONTEND_FTP_USERNAME }}
           password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
-          server-dir: /
+          protocol: ftp
+          port: 21
+          server-dir: /www.htmldemo.somee.com/
+
+          dangerous-clean-slate: false
