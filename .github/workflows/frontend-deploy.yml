@@ -1,4 +1,4 @@
-name: Deploy Frontend (Somee)
+name: Deploy Frontend to Netlify
 
 on:
   push:
@@ -11,19 +11,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: FTP Deploy to Somee Hosting
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3
         with:
-          local-dir: ./frontend/
-          server: ${{ secrets.FRONTEND_FTP_SERVER }}
-          username: ${{ secrets.FRONTEND_FTP_USERNAME }}
-          password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          server-dir: /www.htmldemo.somee.com/
-
-          dangerous-clean-slate: false
+          publish-dir: ./frontend
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy frontend via GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
