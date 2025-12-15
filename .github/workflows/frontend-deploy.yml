@@ -1,4 +1,4 @@
-name: Deploy Frontend to Somee
+name: Deploy Frontend
 
 on:
   push:
@@ -12,15 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Upload Frontend via FTP
+      - name: Deploy frontend via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FRONTEND_FTP_SERVER }}
           username: ${{ secrets.FRONTEND_FTP_USERNAME }}
           password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
-
           local-dir: frontend/
           server-dir: /www.htmldemo.somee.com/

@@ -2,49 +2,28 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Frontend gọi Backend</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 40px;
-        }
-        button {
-            padding: 10px 16px;
-            cursor: pointer;
-        }
-        ul {
-            margin-top: 20px;
-        }
-        li.done { color: green; }
-        li.in_progress { color: orange; }
-        li.todo { color: red; }
-    </style>
+    <title>Frontend Demo</title>
 </head>
 <body>
 
-<h1>Danh sách công việc (từ Backend)</h1>
-<button onclick="loadTasks()">Tải dữ liệu</button>
-<h1>TAO THICH NHU VAY DO</h1>
+<h2>Frontend gọi Backend</h2>
+<button onclick="callAPI()">Gọi API</button>
 
-<ul id="taskList"></ul>
+<pre id="result"></pre>
 
 <script>
-function loadTasks() {
-    fetch("https://phpdemo.kesug.com/api.php")
-        .then(response => response.json())
-        .then(result => {
-            const list = document.getElementById("taskList");
-            list.innerHTML = "";
+function callAPI() {
+    const API_URL = "http://<ten-backend>.infinityfreeapp.com/api.php";
 
-            result.data.forEach(task => {
-                const li = document.createElement("li");
-                li.textContent = task.title + " (" + task.status + ")";
-                li.className = task.status;
-                list.appendChild(li);
-            });
+    fetch(API_URL)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("result").textContent =
+                JSON.stringify(data, null, 2);
         })
         .catch(error => {
-            alert("Không kết nối được backend");
+            document.getElementById("result").textContent =
+                "Không gọi được backend";
             console.error(error);
         });
 }
